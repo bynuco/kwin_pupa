@@ -11,8 +11,13 @@ ShellRoot {
             PanelWindow {
                 property var modelData
                 screen: modelData
+                anchors {
+                    top: true
+                    bottom: true
+                    left: true
+                    right: true
+                }
                 WlrLayershell.layer: WlrLayer.Background
-                WlrLayershell.anchor: WlrLayerAnchor.Top | WlrLayerAnchor.Bottom | WlrLayerAnchor.Left | WlrLayerAnchor.Right
                 
                 Rectangle {
                     anchors.fill: parent

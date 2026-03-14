@@ -10,10 +10,13 @@ PanelWindow {
     property var modelData
     screen: modelData
 
+    anchors {
+        top: true
+        left: true
+        right: true
+    }
+
     WlrLayershell.layer: WlrLayer.Top
-    WlrLayershell.exclusiveZone: -1
-    WlrLayershell.keyboardFocus: WlrKeyboardFocus.None
-    WlrLayershell.anchor: WlrLayerAnchor.Top | WlrLayerAnchor.Left | WlrLayerAnchor.Right
 
     color: "transparent"
 

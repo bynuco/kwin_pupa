@@ -15,11 +15,7 @@ PanelWindow {
     WlrLayershell.keyboardFocus: WlrKeyboardFocus.None
 
     implicitHeight: 40
-    anchors {
-        top: parent.top
-        left: parent.left
-        right: parent.right
-    }
+    anchors: Quickshell.Top | Quickshell.Left | Quickshell.Right
 
     color: "transparent"
 
@@ -32,7 +28,8 @@ PanelWindow {
             anchors.bottom: parent.bottom
             width: parent.width
             height: 1
-            color: "#1affff" // Neon cyan accent border
+            color: "#1affff" // Neon cyan accent border 
+            
             opacity: 0.3
         }
     }

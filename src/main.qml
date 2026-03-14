@@ -11,7 +11,7 @@ ShellRoot {
             PanelWindow {
                 property var modelData
                 screen: modelData
-                anchors.fill: parent
+                anchors: Quickshell.Top | Quickshell.Bottom | Quickshell.Left | Quickshell.Right
                 WlrLayershell.layer: WlrLayer.Background
                 
                 Rectangle {

@@ -7,14 +7,17 @@ ShellRoot {
     // Background Wallpaper
     Variants {
         model: Quickshell.screens
-        PanelWindow {
-            screen: modelData
-            anchors.fill: parent
-            WlrLayershell.layer: WlrLayer.Background
-            
-            Rectangle {
+        delegate: Component {
+            PanelWindow {
+                property var modelData
+                screen: modelData
                 anchors.fill: parent
-                color: "#ca375c"
+                WlrLayershell.layer: WlrLayer.Background
+                
+                Rectangle {
+                    anchors.fill: parent
+                    color: "#ca375c"
+                }
             }
         }
     }
@@ -22,8 +25,13 @@ ShellRoot {
     // Top Bar
     Variants {
         model: Quickshell.screens
-        TopBar {
-            modelData: modelData
+        delegate: Component {
+            TopBar {
+                property var modelData
+                // modelData mapping is handled automatically by Variants inside the delegate
+                // but we explicitly pass it if needed by the component
+                modelData: modelData
+            }
         }
     }
 }

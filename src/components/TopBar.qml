@@ -54,11 +54,12 @@ PanelWindow {
             color: "transparent"
             Layout.alignment: Qt.AlignVCenter
             
-            Text {
+            IconImage {
                 anchors.centerIn: parent
-                text: "󰍜" // Material icon or similar
+                source: "../../assets/icons/menu.svg"
                 color: "white"
-                font.pixelSize: 20
+                width: 20
+                height: 20
             }
 
             MouseArea {
@@ -79,6 +80,17 @@ PanelWindow {
             font.pixelSize: 18
             font.weight: Font.DemiBold
             font.family: "Inter, Roboto, sans-serif"
+            
+            leftPadding: 24
+
+            IconImage {
+                anchors.left: parent.left
+                anchors.verticalCenter: parent.verticalCenter
+                source: "../../assets/icons/clock.svg"
+                color: "white"
+                width: 16
+                height: 16
+            }
             
             Timer {
                 interval: 1000
@@ -103,10 +115,12 @@ PanelWindow {
             Row {
                 spacing: 5
                 visible: UPower.displayDevice != null
-                Text {
-                    text: UPower.displayDevice.iconName.includes("charging") ? "󰂄" : "󰁹"
+                IconImage {
+                    source: UPower.displayDevice.iconName.includes("charging") ? "../../assets/icons/battery-charging.svg" : "../../assets/icons/battery.svg"
                     color: "#1affff"
-                    font.pixelSize: 16
+                    width: 18
+                    height: 18
+                    Layout.alignment: Qt.AlignVCenter
                 }
                 Text {
                     text: Math.round(UPower.displayDevice.percentage) + "%"
@@ -117,10 +131,12 @@ PanelWindow {
             }
 
             // Connection (Placeholder)
-            Text {
-                text: "󰖩"
+            IconImage {
+                source: "../../assets/icons/wifi.svg"
                 color: "white"
-                font.pixelSize: 16
+                width: 18
+                height: 18
+                Layout.alignment: Qt.AlignVCenter
             }
         }
     }

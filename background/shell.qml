@@ -1,4 +1,3 @@
-// shell.qml
 import Quickshell
 import Quickshell.Wayland
 import QtQuick
@@ -6,27 +5,32 @@ import QtQuick
 ShellRoot {
     Variants {
         model: Quickshell.screens
+        delegate: Component {
+            PanelWindow {
+                property var modelData
+                screen: modelData
 
-        PanelWindow {
-            required property var modelData
-            screen: modelData
+                anchors {
+                    top: true
+                    left: true
+                    right: true
+                    bottom: true
+                }
 
-            WlrLayershell.layer: WlrLayer.Background
-            WlrLayershell.exclusionZone: -1
-            WlrLayershell.keyboardFocus: WlrKeyboardFocus.None
+                color: "transparent"
 
-            anchors {
-                top: true
-                left: true
-                right: true
-                bottom: true
-            }
+                Component.onCompleted: {
+                    if (this.WlrLayershell != null) {
+                        this.WlrLayershell.layer = WlrLayer.Background
+                        this.WlrLayershell.exclusionZone = -1
+                        this.WlrLayershell.keyboardFocus = WlrKeyboardFocus.None
+                    }
+                }
 
-            color: "transparent"
-
-            Rectangle {
-                anchors.fill: parent
-                color: "#1e1e2e"
+                Rectangle {
+                    anchors.fill: parent
+                    color: "#1e1e2e"
+                }
             }
         }
     }

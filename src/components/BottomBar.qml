@@ -61,9 +61,7 @@ PanelWindow {
                 cursorShape: Qt.PointingHandCursor
                 onEntered: startButton.opacity = 0.7
                 onExited: startButton.opacity = 1.0
-                onClicked: {
-                    // Başlat menüsü tetiklenebilir (rofi, wofi, vb.)
-                }
+                onClicked: Quickshell.execDetached(["xterm"])
             }
         }
 

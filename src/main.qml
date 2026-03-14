@@ -5,43 +5,24 @@ import QtQuick
 ShellRoot {
     // Background Wallpaper
     Variants {
-        model: Quickshell.screens
-        delegate: Component {
-            PanelWindow {
-                property var modelData
-                screen: modelData
-
-                anchors {
-                    top: true
-                    left: true
-                    right: true
-                    bottom: true
-                }
-
-                color: "transparent"
-
-                Component.onCompleted: {
-                    if (this.WlrLayershell != null) {
-                        this.WlrLayershell.layer = WlrLayer.Background
-                        this.WlrLayershell.exclusionZone = -1
-                        this.WlrLayershell.keyboardFocus = WlrKeyboardFocus.None
-                    }
-                }
-
-                Rectangle {
-                    anchors.fill: parent
-                    color: "#ca375c"
-                }
+        variants: Quickshell.screens
+        PanelWindow {
+            screen: modelData
+            anchors.fill: parent
+            WlrLayershell.layer: WlrLayer.Background
+            
+            Rectangle {
+                anchors.fill: parent
+                color: "#ca375c"
             }
         }
     }
 
     // Top Bar
     Variants {
-        model: Quickshell.screens
-        delegate: Loader {
-            property var modelData
-            source: "components/TopBar.qml"
+        variants: Quickshell.screens
+        TopBar {
+            screen: modelData
         }
     }
 }

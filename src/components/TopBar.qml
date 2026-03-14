@@ -10,7 +10,11 @@ PanelWindow {
     property var modelData
     screen: modelData
 
-    height: 40
+    WlrLayershell.layer: WlrLayer.Top
+    WlrLayershell.exclusiveZone: -1
+    WlrLayershell.keyboardFocus: WlrKeyboardFocus.None
+
+    implicitHeight: 40
     anchors {
         top: true
         left: true
@@ -18,14 +22,6 @@ PanelWindow {
     }
 
     color: "transparent"
-
-    Component.onCompleted: {
-        if (this.WlrLayershell != null) {
-            this.WlrLayershell.layer = WlrLayer.Top
-            this.WlrLayershell.exclusionZone = height
-            this.WlrLayershell.keyboardFocus = WlrKeyboardFocus.None
-        }
-    }
 
     // Glassmorphism Background
     Rectangle {

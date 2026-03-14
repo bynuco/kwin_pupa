@@ -17,10 +17,9 @@ PanelWindow {
     }
 
     WlrLayershell.layer: WlrLayer.Top
-    WlrLayershell.exclusiveZone: height
-    
+    WlrLayershell.exclusiveZone: implicitHeight
+
     implicitHeight: 32
-    height: implicitHeight
 
     // PanelWindow has no "color" property; use a full-rect Rectangle for background
     // Glassmorphism Background
@@ -53,7 +52,7 @@ PanelWindow {
             
             IconImage {
                 anchors.centerIn: parent
-                source: Qt.resolvedUrl("../../assets/icons/menu.svg")
+                source: "file://" + Quickshell.path("../assets/icons/menu.svg")
                 width: 20
                 height: 20
             }
@@ -82,7 +81,7 @@ PanelWindow {
             IconImage {
                 anchors.left: parent.left
                 anchors.verticalCenter: parent.verticalCenter
-                source: Qt.resolvedUrl("../../assets/icons/clock.svg")
+                source: "file://" + Quickshell.path("../assets/icons/clock.svg")
                 width: 16
                 height: 16
             }
@@ -111,7 +110,7 @@ PanelWindow {
                 spacing: 5
                 visible: UPower.displayDevice != null
                 IconImage {
-                    source: UPower.displayDevice.iconName.includes("charging") ? Qt.resolvedUrl("../../assets/icons/battery-charging.svg") : Qt.resolvedUrl("../../assets/icons/battery.svg")
+                    source: UPower.displayDevice.iconName.includes("charging") ? ("file://" + Quickshell.path("../assets/icons/battery-charging.svg")) : ("file://" + Quickshell.path("../assets/icons/battery.svg"))
                     width: 18
                     height: 18
                     Layout.alignment: Qt.AlignVCenter
@@ -126,7 +125,7 @@ PanelWindow {
 
             // Connection (Placeholder)
             IconImage {
-                source: Qt.resolvedUrl("../../assets/icons/wifi.svg")
+                source: "file://" + Quickshell.path("../assets/icons/wifi.svg")
                 width: 18
                 height: 18
                 Layout.alignment: Qt.AlignVCenter

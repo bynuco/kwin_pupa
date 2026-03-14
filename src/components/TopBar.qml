@@ -17,6 +17,10 @@ PanelWindow {
     }
 
     WlrLayershell.layer: WlrLayer.Top
+    WlrLayershell.exclusiveZone: height
+    
+    implicitHeight: 32
+    height: implicitHeight
 
     color: "transparent"
 

@@ -40,7 +40,7 @@ PanelWindow {
         anchors.rightMargin: 12
         spacing: 8
 
-        // Sol: Başlat ikonu
+        // Başlat ikonu (sadece ikon, terminal açmaz)
         Rectangle {
             id: startButton
             width: 36
@@ -61,6 +61,39 @@ PanelWindow {
                 cursorShape: Qt.PointingHandCursor
                 onEntered: startButton.opacity = 0.7
                 onExited: startButton.opacity = 1.0
+                onClicked: { /* başlat menüsü — terminal burada açılmaz */ }
+            }
+        }
+
+        // Terminal butonu — sadece buna tıklanınca xterm açılır
+        Rectangle {
+            id: terminalButton
+            width: 38
+            height: 34
+            radius: 6
+            color: Qt.rgba(0.25, 0.25, 0.3, 0.9)
+            Layout.alignment: Qt.AlignVCenter
+
+            border.width: 1
+            border.color: Qt.rgba(0.4, 0.4, 0.5, 0.6)
+
+            IconImage {
+                anchors.centerIn: parent
+                source: "file://" + Quickshell.shellPath("../assets/icons/terminal.svg")
+                width: 20
+                height: 20
+            }
+
+            MouseArea {
+                anchors.fill: parent
+                hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
+                onEntered: {
+                    terminalButton.color = Qt.rgba(0.35, 0.35, 0.4, 0.95)
+                }
+                onExited: {
+                    terminalButton.color = Qt.rgba(0.25, 0.25, 0.3, 0.9)
+                }
                 onClicked: Quickshell.execDetached(["xterm"])
             }
         }

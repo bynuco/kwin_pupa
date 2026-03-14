@@ -33,8 +33,17 @@ ShellRoot {
         delegate: Component {
             TopBar {
                 property var modelData
-                // modelData mapping is handled automatically by Variants inside the delegate
-                // but we explicitly pass it if needed by the component
+                modelData: modelData
+            }
+        }
+    }
+
+    // Bottom Bar (başlat ikonu solda)
+    Variants {
+        model: Quickshell.screens
+        delegate: Component {
+            BottomBar {
+                property var modelData
                 modelData: modelData
             }
         }

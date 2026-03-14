@@ -15,7 +15,8 @@ PanelWindow {
         right: true
     }
 
-    WlrLayershell.layer: WlrLayer.Bottom
+    // Top layer = pencerelerin üstünde çizilir (konum hâlâ altta)
+    WlrLayershell.layer: WlrLayer.Top
     WlrLayershell.exclusiveZone: implicitHeight
 
     implicitHeight: 40

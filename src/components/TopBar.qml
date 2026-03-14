@@ -8,7 +8,8 @@ import QtQuick.Layouts
 PanelWindow {
     id: topbar
     property var modelData
-    screen: modelData
+    // Only bind screen when modelData is defined (Variants may inject it slightly later)
+    screen: modelData !== undefined ? modelData : null
 
     anchors {
         top: true

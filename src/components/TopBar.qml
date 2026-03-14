@@ -52,7 +52,7 @@ PanelWindow {
             
             IconImage {
                 anchors.centerIn: parent
-                source: "file://" + Quickshell.path("../assets/icons/menu.svg")
+                source: "file://" + Quickshell.shellPath("../assets/icons/menu.svg")
                 width: 20
                 height: 20
             }
@@ -81,7 +81,7 @@ PanelWindow {
             IconImage {
                 anchors.left: parent.left
                 anchors.verticalCenter: parent.verticalCenter
-                source: "file://" + Quickshell.path("../assets/icons/clock.svg")
+                source: "file://" + Quickshell.shellPath("../assets/icons/clock.svg")
                 width: 16
                 height: 16
             }
@@ -110,7 +110,7 @@ PanelWindow {
                 spacing: 5
                 visible: UPower.displayDevice != null
                 IconImage {
-                    source: UPower.displayDevice.iconName.includes("charging") ? ("file://" + Quickshell.path("../assets/icons/battery-charging.svg")) : ("file://" + Quickshell.path("../assets/icons/battery.svg"))
+                    source: UPower.displayDevice.iconName.includes("charging") ? ("file://" + Quickshell.shellPath("../assets/icons/battery-charging.svg")) : ("file://" + Quickshell.shellPath("../assets/icons/battery.svg"))
                     width: 18
                     height: 18
                     Layout.alignment: Qt.AlignVCenter
@@ -125,7 +125,7 @@ PanelWindow {
 
             // Connection (Placeholder)
             IconImage {
-                source: "file://" + Quickshell.path("../assets/icons/wifi.svg")
+                source: "file://" + Quickshell.shellPath("../assets/icons/wifi.svg")
                 width: 18
                 height: 18
                 Layout.alignment: Qt.AlignVCenter

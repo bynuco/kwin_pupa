@@ -29,7 +29,7 @@ ShellRoot {
 
                 Rectangle {
                     anchors.fill: parent
-                    color: "#1e1e2e"
+                    color: "#ca375c"
                 }
             }
         }

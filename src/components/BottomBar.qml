@@ -24,11 +24,12 @@ PanelWindow {
 
     // KWin: Python ile pencere listesi (ToplevelManager KWin'de boş)
     property var kwinWindowList: []
-    property string scriptsDir: Quickshell.shellPath("../scripts")
+    property string projectRoot: Quickshell.shellPath("..")
 
     Process {
         id: winListProcess
-        command: ["python3", scriptsDir + "/get_windows.py", scriptsDir + "/list_windows.js"]
+        workingDirectory: projectRoot
+        command: ["python3", "scripts/get_windows.py"]
         running: false
         stdout: StdioCollector {
             onStreamFinished: {

@@ -13,9 +13,7 @@ PanelWindow {
     WlrLayershell.layer: WlrLayer.Top
     WlrLayershell.exclusiveZone: -1
     WlrLayershell.keyboardFocus: WlrKeyboardFocus.None
-
-    implicitHeight: 40
-    anchors: Quickshell.Top | Quickshell.Left | Quickshell.Right
+    WlrLayershell.anchor: WlrLayerAnchor.Top | WlrLayerAnchor.Left | WlrLayerAnchor.Right
 
     color: "transparent"
 

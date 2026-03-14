@@ -16,9 +16,9 @@ PanelWindow {
 
     implicitHeight: 40
     anchors {
-        top: true
-        left: true
-        right: true
+        top: parent.top
+        left: parent.left
+        right: parent.right
     }
 
     color: "transparent"

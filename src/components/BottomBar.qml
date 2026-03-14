@@ -1,6 +1,7 @@
 import Quickshell
 import Quickshell.Wayland
 import Quickshell.Widgets
+import Quickshell.Io
 import QtQuick
 import QtQuick.Layouts
 
@@ -20,6 +21,40 @@ PanelWindow {
     WlrLayershell.exclusiveZone: implicitHeight
 
     implicitHeight: 40
+
+    // KWin: Python ile pencere listesi (ToplevelManager KWin'de boş)
+    property var kwinWindowList: []
+    property string scriptsDir: Quickshell.shellPath("../scripts")
+
+    Process {
+        id: winListProcess
+        command: ["python3", scriptsDir + "/get_windows.py", scriptsDir + "/list_windows.js"]
+        running: false
+        stdout: StdioCollector {
+            onStreamFinished: {
+                try {
+                    var t = this.text.trim()
+                    if (t) {
+                        var arr = JSON.parse(t)
+                        bottombar.kwinWindowList = Array.isArray(arr) ? arr : []
+                    }
+                } catch (_) {
+                    bottombar.kwinWindowList = []
+                }
+                winListProcess.running = false
+            }
+        }
+    }
+    Timer {
+        interval: 2500
+        repeat: true
+        running: true
+        triggeredOnStart: true
+        onTriggered: {
+            if (!winListProcess.running)
+                winListProcess.running = true
+        }
+    }
 
     Rectangle {
         anchors.fill: parent
@@ -98,17 +133,17 @@ PanelWindow {
             }
         }
 
-        // Açık pencereler (Windows taskbar gibi)
+        // Açık pencereler — KWin: kwinWindowList; wlroots: ToplevelManager
         Repeater {
-            model: ToplevelManager.toplevels
+            model: kwinWindowList.length > 0 ? kwinWindowList : (ToplevelManager.toplevels || [])
             delegate: Rectangle {
                 width: Math.min(winTitle.implicitWidth + 24, 180)
                 height: 32
                 radius: 4
                 Layout.alignment: Qt.AlignVCenter
-                color: modelData.activated ? Qt.rgba(0.35, 0.35, 0.45, 0.95) : Qt.rgba(0.22, 0.22, 0.28, 0.9)
+                color: (typeof modelData.activated !== "undefined" && modelData.activated) ? Qt.rgba(0.35, 0.35, 0.45, 0.95) : Qt.rgba(0.22, 0.22, 0.28, 0.9)
                 border.width: 1
-                border.color: modelData.activated ? "#1affff" : Qt.rgba(0.4, 0.4, 0.5, 0.4)
+                border.color: (typeof modelData.activated !== "undefined" && modelData.activated) ? "#1affff" : Qt.rgba(0.4, 0.4, 0.5, 0.4)
 
                 Text {
                     id: winTitle
@@ -126,7 +161,10 @@ PanelWindow {
                 MouseArea {
                     anchors.fill: parent
                     cursorShape: Qt.PointingHandCursor
-                    onClicked: modelData.activate()
+                    onClicked: {
+                        if (typeof modelData.activate === "function")
+                            modelData.activate()
+                    }
                 }
             }
         }

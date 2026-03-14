@@ -22,8 +22,7 @@ PanelWindow {
     implicitHeight: 32
     height: implicitHeight
 
-    color: "transparent"
-
+    // PanelWindow has no "color" property; use a full-rect Rectangle for background
     // Glassmorphism Background
     Rectangle {
         anchors.fill: parent
@@ -55,7 +54,6 @@ PanelWindow {
             IconImage {
                 anchors.centerIn: parent
                 source: Quickshell.path("../assets/icons/menu.svg")
-                color: "white"
                 width: 20
                 height: 20
             }
@@ -85,7 +83,6 @@ PanelWindow {
                 anchors.left: parent.left
                 anchors.verticalCenter: parent.verticalCenter
                 source: Quickshell.path("../assets/icons/clock.svg")
-                color: "white"
                 width: 16
                 height: 16
             }
@@ -115,7 +112,6 @@ PanelWindow {
                 visible: UPower.displayDevice != null
                 IconImage {
                     source: UPower.displayDevice.iconName.includes("charging") ? Quickshell.path("../assets/icons/battery-charging.svg") : Quickshell.path("../assets/icons/battery.svg")
-                    color: "white"
                     width: 18
                     height: 18
                     Layout.alignment: Qt.AlignVCenter
@@ -131,7 +127,6 @@ PanelWindow {
             // Connection (Placeholder)
             IconImage {
                 source: Quickshell.path("../assets/icons/wifi.svg")
-                color: "white"
                 width: 18
                 height: 18
                 Layout.alignment: Qt.AlignVCenter

@@ -53,7 +53,6 @@ PanelWindow {
             IconImage {
                 anchors.centerIn: parent
                 source: "../../assets/icons/menu.svg"
-                color: "white"
                 width: 20
                 height: 20
             }
@@ -83,7 +82,6 @@ PanelWindow {
                 anchors.left: parent.left
                 anchors.verticalCenter: parent.verticalCenter
                 source: "../../assets/icons/clock.svg"
-                color: "white"
                 width: 16
                 height: 16
             }
@@ -113,7 +111,6 @@ PanelWindow {
                 visible: UPower.displayDevice != null
                 IconImage {
                     source: UPower.displayDevice.iconName.includes("charging") ? "../../assets/icons/battery-charging.svg" : "../../assets/icons/battery.svg"
-                    color: "#1affff"
                     width: 18
                     height: 18
                     Layout.alignment: Qt.AlignVCenter
@@ -129,7 +126,6 @@ PanelWindow {
             // Connection (Placeholder)
             IconImage {
                 source: "../../assets/icons/wifi.svg"
-                color: "white"
                 width: 18
                 height: 18
                 Layout.alignment: Qt.AlignVCenter

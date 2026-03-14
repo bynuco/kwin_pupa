@@ -6,7 +6,7 @@ import "components"
 ShellRoot {
     // Background Wallpaper
     Variants {
-        variants: Quickshell.screens
+        model: Quickshell.screens
         PanelWindow {
             screen: modelData
             anchors.fill: parent
@@ -21,9 +21,9 @@ ShellRoot {
 
     // Top Bar
     Variants {
-        variants: Quickshell.screens
+        model: Quickshell.screens
         TopBar {
-            screen: modelData
+            modelData: modelData
         }
     }
 }

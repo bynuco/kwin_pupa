@@ -98,6 +98,39 @@ PanelWindow {
             }
         }
 
+        // Açık pencereler (Windows taskbar gibi)
+        Repeater {
+            model: ToplevelManager.toplevels
+            delegate: Rectangle {
+                width: Math.min(winTitle.implicitWidth + 24, 180)
+                height: 32
+                radius: 4
+                Layout.alignment: Qt.AlignVCenter
+                color: modelData.activated ? Qt.rgba(0.35, 0.35, 0.45, 0.95) : Qt.rgba(0.22, 0.22, 0.28, 0.9)
+                border.width: 1
+                border.color: modelData.activated ? "#1affff" : Qt.rgba(0.4, 0.4, 0.5, 0.4)
+
+                Text {
+                    id: winTitle
+                    anchors.fill: parent
+                    anchors.leftMargin: 12
+                    anchors.rightMargin: 12
+                    verticalAlignment: Text.AlignVCenter
+                    text: modelData.title || modelData.appId || "Pencere"
+                    color: "white"
+                    font.pixelSize: 13
+                    font.family: "Inter, Roboto, sans-serif"
+                    elide: Text.ElideRight
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+                    cursorShape: Qt.PointingHandCursor
+                    onClicked: modelData.activate()
+                }
+            }
+        }
+
         Item { Layout.fillWidth: true }
     }
 }

@@ -6,7 +6,17 @@
       "WebFetch(domain:quickshell.org)",
       "WebSearch",
       "WebFetch(domain:git.outfoxxed.me)",
-      "WebFetch(domain:www.tonybtw.com)"
+      "WebFetch(domain:www.tonybtw.com)",
+      "WebFetch(domain:invent.kde.org)",
+      "WebFetch(domain:develop.kde.org)",
+      "WebFetch(domain:rudd-o.com)",
+      "WebFetch(domain:gitee.com)",
+      "WebFetch(domain:phabricator.kde.org)",
+      "WebFetch(domain:discuss.kde.org)",
+      "WebFetch(domain:community.kde.org)",
+      "WebFetch(domain:zeroxoneafour.github.io)",
+      "WebFetch(domain:kwin.kde.org)",
+      "WebFetch(domain:gist.github.com)"
     ]
   }
 }

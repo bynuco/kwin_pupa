@@ -161,8 +161,8 @@ PanelWindow {
                     anchors.fill: parent
                     cursorShape: Qt.PointingHandCursor
                     onClicked: {
-                        if (typeof modelData.activate === "function")
-                            modelData.activate()
+                        if (modelData.uuid)
+                            Quickshell.execDetached(["wmctrl", "-ia", modelData.uuid])
                     }
                 }
             }

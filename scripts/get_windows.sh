@@ -1,39 +1,41 @@
 #!/bin/bash
-# KWin pencere listesini qdbus ile alır, JSON döner
+# Pencere listesini wmctrl (XWayland) ile alır, JSON döner
 
-ACTIVE=$(qdbus org.kde.KWin /KWin org.kde.KWin.activeWindow 2>/dev/null | tr -d ' \n')
-WINDOWS=$(qdbus org.kde.KWin /KWin org.kde.KWin.windows 2>/dev/null)
+WINDOWS=$(wmctrl -l -x 2>/dev/null)
 
 if [ -z "$WINDOWS" ]; then
     echo "[]"
     exit 0
 fi
 
+# Aktif pencere ID'si
+ACTIVE_HEX=$(xprop -root _NET_ACTIVE_WINDOW 2>/dev/null | grep -o '0x[0-9a-f]*' | head -1)
+
 result="["
 first=true
 
-while IFS= read -r uuid; do
-    [ -z "$uuid" ] && continue
+while IFS= read -r line; do
+    [ -z "$line" ] && continue
 
-    INFO=$(qdbus org.kde.KWin /KWin org.kde.KWin.getWindowInfo "$uuid" 2>/dev/null)
-    [ -z "$INFO" ] && continue
+    id=$(echo "$line" | awk '{print $1}')
+    desktop=$(echo "$line" | awk '{print $2}')
+    wm_class=$(echo "$line" | awk '{print $4}')
+    title=$(echo "$line" | awk '{for(i=5;i<=NF;i++) printf "%s%s",$i,(i<NF?" ":""); print ""}')
 
-    skip=$(echo "$INFO" | grep -i "^skipTaskbar:" | awk '{print $2}')
-    [ "$skip" = "true" ] && continue
-
-    title=$(echo "$INFO" | grep -i "^caption:" | sed 's/^[Cc]aption: //')
-    appid=$(echo "$INFO" | grep -i "^resourceClass:" | awk '{print tolower($2)}')
-
+    # Masaüstü ve başlıksız pencereleri atla
+    [ "$desktop" = "-1" ] && continue
     [ -z "$title" ] && continue
 
+    appid=$(echo "$wm_class" | awk -F'.' '{print tolower($NF)}')
+
     # JSON escape
-    title=$(echo "$title" | sed 's/\\/\\\\/g; s/"/\\"/g; s/\t/\\t/g')
+    title=$(echo "$title" | sed 's/\\/\\\\/g; s/"/\\"/g; s/\t/ /g')
 
     activated=false
-    [ "$uuid" = "$ACTIVE" ] && activated=true
+    [ "$id" = "$ACTIVE_HEX" ] && activated=true
 
     $first || result="${result},"
-    result="${result}{\"title\":\"${title}\",\"appId\":\"${appid}\",\"activated\":${activated}}"
+    result="${result}{\"title\":\"${title}\",\"appId\":\"${appid}\",\"activated\":${activated},\"uuid\":\"${id}\"}"
     first=false
 done <<< "$WINDOWS"
 

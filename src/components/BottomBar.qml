@@ -162,7 +162,10 @@ PanelWindow {
                     cursorShape: Qt.PointingHandCursor
                     onClicked: {
                         if (modelData.uuid)
-                            Quickshell.execDetached(["wmctrl", "-ia", modelData.uuid])
+                            Quickshell.execDetached(["dbus-send", "--session",
+                                "--dest=org.kde.KWin", "/KWin",
+                                "org.kde.KWin.activateWindow",
+                                "string:" + modelData.uuid])
                     }
                 }
             }

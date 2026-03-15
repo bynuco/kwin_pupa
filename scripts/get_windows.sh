@@ -1,41 +1,47 @@
 #!/bin/bash
-# Pencere listesini wmctrl (XWayland) ile alır, JSON döner
+# KWin pencere listesini DBus (Wayland-native) ile alır, JSON döner
+# Gereksinim: dbus-send (dbus paketi, genellikle kurulu gelir)
 
-WINDOWS=$(wmctrl -l -x 2>/dev/null)
+ACTIVE=$(dbus-send --session --print-reply --dest=org.kde.KWin \
+    /KWin org.kde.KWin.activeWindow 2>/dev/null \
+    | grep 'string' | grep -o '"[^"]*"' | tr -d '"')
+
+WINDOWS_RAW=$(dbus-send --session --print-reply --dest=org.kde.KWin \
+    /KWin org.kde.KWin.windows 2>/dev/null)
+
+WINDOWS=$(echo "$WINDOWS_RAW" | grep 'string' | grep -o '"[^"]*"' | tr -d '"')
 
 if [ -z "$WINDOWS" ]; then
     echo "[]"
     exit 0
 fi
 
-# Aktif pencere ID'si
-ACTIVE_HEX=$(xprop -root _NET_ACTIVE_WINDOW 2>/dev/null | grep -o '0x[0-9a-f]*' | head -1)
-
 result="["
 first=true
 
-while IFS= read -r line; do
-    [ -z "$line" ] && continue
+while IFS= read -r uuid; do
+    [ -z "$uuid" ] && continue
 
-    id=$(echo "$line" | awk '{print $1}')
-    desktop=$(echo "$line" | awk '{print $2}')
-    wm_class=$(echo "$line" | awk '{print $4}')
-    title=$(echo "$line" | awk '{for(i=5;i<=NF;i++) printf "%s%s",$i,(i<NF?" ":""); print ""}')
+    INFO_RAW=$(dbus-send --session --print-reply --dest=org.kde.KWin \
+        /KWin org.kde.KWin.getWindowInfo "string:$uuid" 2>/dev/null)
+    [ -z "$INFO_RAW" ] && continue
 
-    # Masaüstü ve başlıksız pencereleri atla
-    [ "$desktop" = "-1" ] && continue
+    skip=$(echo "$INFO_RAW" | grep -A1 '"skipTaskbar"' | grep 'boolean' | awk '{print $2}')
+    [ "$skip" = "true" ] && continue
+
+    title=$(echo "$INFO_RAW" | grep -A1 '"caption"' | grep 'string' | grep -o '"[^"]*"' | tr -d '"')
+    appid=$(echo "$INFO_RAW" | grep -A1 '"resourceClass"' | grep 'string' | grep -o '"[^"]*"' | tr -d '"' | tr '[:upper:]' '[:lower:]')
+
     [ -z "$title" ] && continue
 
-    appid=$(echo "$wm_class" | awk -F'.' '{print tolower($NF)}')
-
-    # JSON escape
     title=$(echo "$title" | sed 's/\\/\\\\/g; s/"/\\"/g; s/\t/ /g')
+    uuid_esc=$(echo "$uuid" | sed 's/\\/\\\\/g; s/"/\\"/g')
 
     activated=false
-    [ "$id" = "$ACTIVE_HEX" ] && activated=true
+    [ "$uuid" = "$ACTIVE" ] && activated=true
 
     $first || result="${result},"
-    result="${result}{\"title\":\"${title}\",\"appId\":\"${appid}\",\"activated\":${activated},\"uuid\":\"${id}\"}"
+    result="${result}{\"title\":\"${title}\",\"appId\":\"${appid}\",\"activated\":${activated},\"uuid\":\"${uuid_esc}\"}"
     first=false
 done <<< "$WINDOWS"
 

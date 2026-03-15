@@ -111,13 +111,15 @@ PanelWindow {
                 spacing: 5
                 visible: UPower.displayDevice != null
                 IconImage {
-                    source: UPower.displayDevice.iconName.includes("charging") ? ("file://" + Quickshell.shellPath("../assets/icons/battery-charging.svg")) : ("file://" + Quickshell.shellPath("../assets/icons/battery.svg"))
+                    source: (UPower.displayDevice && UPower.displayDevice.iconName && UPower.displayDevice.iconName.includes("charging"))
+                        ? ("file://" + Quickshell.shellPath("../assets/icons/battery-charging.svg"))
+                        : ("file://" + Quickshell.shellPath("../assets/icons/battery.svg"))
                     width: 18
                     height: 18
                     Layout.alignment: Qt.AlignVCenter
                 }
                 Text {
-                    text: Math.round(UPower.displayDevice.percentage) + "%"
+                    text: UPower.displayDevice ? Math.round(UPower.displayDevice.percentage) + "%" : ""
                     color: "white"
                     font.pixelSize: 14
                     font.family: "Inter, Roboto, sans-serif"

@@ -22,19 +22,16 @@ PanelWindow {
 
     implicitHeight: 40
 
-    // KWin: Python ile pencere listesi (ToplevelManager KWin'de boş)
     property var kwinWindowList: []
-    property string projectRoot: Quickshell.shellPath("..")
 
     Process {
         id: winListProcess
-        workingDirectory: projectRoot
-        command: ["python3", "scripts/get_windows.py"]
+        command: ["bash", Quickshell.shellPath("../../scripts/get_windows.sh")]
         running: false
         stdout: StdioCollector {
             onStreamFinished: {
                 try {
-                    var t = this.text.trim()
+                    var t = text.trim()
                     if (t) {
                         var arr = JSON.parse(t)
                         bottombar.kwinWindowList = Array.isArray(arr) ? arr : []
@@ -46,6 +43,7 @@ PanelWindow {
             }
         }
     }
+
     Timer {
         interval: 2500
         repeat: true
@@ -134,9 +132,9 @@ PanelWindow {
             }
         }
 
-        // Açık pencereler — KWin: kwinWindowList; wlroots: ToplevelManager
+        // Açık pencereler
         Repeater {
-            model: kwinWindowList.length > 0 ? kwinWindowList : (ToplevelManager.toplevels || [])
+            model: kwinWindowList
             delegate: Rectangle {
                 width: Math.min(winTitle.implicitWidth + 24, 180)
                 height: 32
